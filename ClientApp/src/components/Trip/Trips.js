@@ -11,6 +11,17 @@ export class Trips extends React.Component
     }
   }
 
+  componentDidMount(){
+    this.populateTripsData();
+  }
+
+  async populateTripsData(){
+    let reponse = await fetch("api/Trips/GetTrips");
+    const trips = await reponse.json();
+
+    this.setState({trips, loading: false});
+  }
+
   renderAllTripsTable(trips){
     return (
       <table className="table table-striped">
@@ -24,13 +35,19 @@ export class Trips extends React.Component
           </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>a</td>
-          <td>a</td>
-          <td>a</td>
-          <td>a</td>
-          <td>-</td>
-          </tr>
+          {
+            trips.map(trip => (
+              <tr key={trip.id}>
+                <td>{trip.name}</td>
+                <td>{trip.description}</td>
+                <td>{new Date(trip.dateStarted).toLocaleDateString()}</td>
+                <td>{trip.dateCompleted ?
+                new Date(trip.dateCompleted).toLocaleDateString()
+                : '-'}</td>
+                <td> - </td>
+              </tr>
+            ))
+          }
         </tbody>
       </table>
     );
