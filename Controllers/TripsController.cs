@@ -12,6 +12,15 @@ namespace Trips.Controllers
         this._service = service;
     }
 
+    // [HttpGet("GetTrips")]
+    // because the endpoint and the method have same name
+    [HttpGet("[action]")]
+    public IActionResult GetTrips()
+    {
+      var allTrips = _service.GetAllTrips();
+      return Ok(allTrips);
+    }
+
     [HttpPost("AddTrip")]
     public IActionResult AddTrip([FromBody]Trip trip)
     {
