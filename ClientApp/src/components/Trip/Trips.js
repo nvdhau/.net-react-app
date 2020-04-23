@@ -27,15 +27,15 @@ export class Trips extends React.Component
 
     const {history} = this.props;
 
-    console.log(e.target.value);
-
     history.push(`update/${e.target.value}`);
   }
 
   onDeleteButtonClick = (e) => {
     e.preventDefault();
 
-    console.log(e.target.value);
+    const {history} = this.props;
+
+    history.push(`delete/${e.target.value}`);
   }
 
   renderAllTripsTable(trips){
