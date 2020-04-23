@@ -22,6 +22,22 @@ export class Trips extends React.Component
     this.setState({trips, loading: false});
   }
 
+  onEditButtonClick = (e) => {
+    e.preventDefault();
+
+    const {history} = this.props;
+
+    console.log(e.target.value);
+
+    history.push(`update/${e.target.value}`);
+  }
+
+  onDeleteButtonClick = (e) => {
+    e.preventDefault();
+
+    console.log(e.target.value);
+  }
+
   renderAllTripsTable(trips){
     return (
       <table className="table table-striped">
@@ -44,7 +60,22 @@ export class Trips extends React.Component
                 <td>{trip.dateCompleted ?
                 new Date(trip.dateCompleted).toLocaleDateString()
                 : '-'}</td>
-                <td> - </td>
+                <td>
+                  <button 
+                  className="btn btn-primary"
+                  value={trip.id}
+                  onClick={this.onEditButtonClick}
+                  >
+                    Edit
+                  </button>
+                  <button 
+                  className="btn btn-danger"
+                  value={trip.id}
+                  onClick={this.onDeleteButtonClick}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))
           }
