@@ -10,7 +10,58 @@ export class Create extends Component {
       dateStarted: null,
       dateCompleted: null,
     }
+
+    this.onChangeName = this.onChangeName.bind(this);
   }
+
+  onChangeName(e) {
+    this.setState({
+      name: e.target.value
+    });
+  };
+
+  onChangeDescription = (e) => {
+    this.setState({
+      description: e.target.value
+    });
+  };
+
+  onChangeDateStarted = (e) => {
+    this.setState({
+      dateStarted: e.target.value
+    });
+  };
+
+  onChangeDateCompleted = (e) => {
+    this.setState({
+      dateCompleted: e.target.value
+    });
+  };
+
+  onSubmit = async (e) => {
+    e.preventDefault();
+    const {history} = this.props;
+
+    let tripObj = {
+      Id: Math.floor(Math.random() * 1000),
+      name: this.state.name,
+      description: this.state.description,
+      dateStarted: this.state.dateStarted,
+      dateCompleted: this.state.dateCompleted,
+    }
+
+    let response = await fetch('api/trips/addtrip',{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'post',
+      body: JSON.stringify(tripObj)
+    });
+    // let trip = await response.json();
+
+    history.push('trips');
+  }
+
   render() { 
     return ( 
       <div className="trip-form" >
@@ -20,14 +71,18 @@ export class Create extends Component {
                 <label>Trip name:  </label>
                 <input 
                   type="text" 
-                  className="form-control" 
+                  className="form-control"
+                  value={this.state.name}
+                  onChange={this.onChangeName}
                   />
             </div>
             <div className="form-group">
                 <label>Trip description: </label>
-                <textarea 
-type="text" 
+                <textarea
+                  type="text" 
                   className="form-control"
+                  value={this.state.description}
+                  onChange={this.onChangeDescription}
                 />
             </div>
             <div className="row">
@@ -37,6 +92,8 @@ type="text"
                         <input 
                           type="date" 
                           className="form-control"
+                          value={this.state.dateStarted}
+                          onChange={this.onChangeDateStarted}
                         />
                     </div>
                 </div>
@@ -45,14 +102,21 @@ type="text"
                     <label>Date of completion:  </label>
                     <input 
                         type="date" 
-                        className="form-control" 
+                        className="form-control"
+                        value={this.state.dateCompleted}
+                        onChange={this.onChangeDateCompleted}
                     />
                     </div>
                 </div>
             </div>
             
             <div className="form-group">
-                <input type="submit" value="Add trip" className="btn btn-primary"/>
+                <input 
+                type="submit"
+                value="Add trip" 
+                className="btn btn-primary"
+                onSubmit={this.onSubmit}
+                />
             </div>
         </form>
       </div>
