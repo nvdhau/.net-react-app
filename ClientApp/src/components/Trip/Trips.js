@@ -16,10 +16,15 @@ export class Trips extends React.Component
   }
 
   async populateTripsData(){
-    let reponse = await fetch("api/Trips/GetTrips");
-    const trips = await reponse.json();
-
-    this.setState({trips, loading: false});
+    try{
+      let reponse = await fetch("api/Trips/GetTrips");
+      const trips = await reponse.json();
+  
+      this.setState({trips, loading: false});
+    }catch(error){
+      console.log(error);
+    };
+    
   }
 
   onEditButtonClick = (e) => {

@@ -17,8 +17,13 @@ namespace Trips.Controllers
     [HttpGet("[action]")]
     public IActionResult GetTrips()
     {
-      var allTrips = _service.GetAllTrips();
-      return Ok(allTrips);
+      try {
+        // throw new System.Exception();
+        var allTrips = _service.GetAllTrips();
+        return Ok(allTrips);
+      } catch(System.Exception ex){
+        return BadRequest(ex.Message);
+      }
     }
 
     [HttpGet("SingleTrip/{id}")]

@@ -62,7 +62,7 @@ export class Update extends Component {
   onSubmit = async (e) => {
     e.preventDefault();
     const {history} = this.props;
-
+   
     let tripObj = {
       Id: this.state.Id,
       name: this.state.name,
@@ -78,9 +78,11 @@ export class Update extends Component {
       method: 'put',
       body: JSON.stringify(tripObj)
     });
-    // let trip = await response.json();
 
-    history.push('/trips');
+    //if success, redirect
+    if(response.status == 200)
+      history.push('/trips');
+
   }
 
   onCancel = () => {
