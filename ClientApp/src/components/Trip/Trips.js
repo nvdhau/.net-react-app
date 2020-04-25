@@ -1,18 +1,27 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import {
+  getAllTrips,
+} from './thunks';
+import { getAllTripsInProgress } from './actions';
 
-export class Trips extends React.Component
+
+class Trips extends React.Component
 {
   constructor(props) {
     super(props);
 
-    this.state = {
-      trips: [],
-      loading: true,
-    }
+    // this.state = {
+    //   trips: {
+    //     data: [],
+    //     loading: true,
+    //   }
+    // }
   }
 
   componentDidMount(){
-    this.populateTripsData();
+    // this.populateTripsData();
+    this.props.getAllTrips();
   }
 
   async populateTripsData(){
@@ -91,12 +100,14 @@ export class Trips extends React.Component
 
   render() {
 
-    let content = this.state.loading 
+    console.log("PROPS", this.props)
+
+    let content = this.props.trips.loading 
     ? (
       <em>Loading...</em>
     )
     : (
-      this.renderAllTripsTable(this.state.trips)
+      this.renderAllTripsTable(this.props.trips.data)
     );
 
     return (
@@ -108,3 +119,19 @@ export class Trips extends React.Component
     );
   }
 }
+
+// may need 2 functions to pass to connect
+const mapStateToProps = state => ({ // the state is the entire Redux state
+  // but only need "todos"
+  // todos: state.todos, // => the new Component has "todos" as props
+  // isLoading: state.isLoading,
+  trips: state.trips,
+});
+
+// trigger Redux action
+const mapDispatchToProps = dispatch => ({
+  getAllTrips: () => dispatch(getAllTrips()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Trips);
+
